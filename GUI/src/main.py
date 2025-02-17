@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
+from tkinter import messagebox
+from string import punctuation
 import os
 
 import my_gui
@@ -10,12 +12,14 @@ import my_gui
 # Constants #
 #-----------#
 WIN_TITLE = "Password Manager"
-WIN_MIN_WIDTH, WIN_MIN_HEIGHT = 600, 400
-WIN_WIDTH, WIN_HEIGHT = 600, 400
+WIN_MIN_WIDTH, WIN_MIN_HEIGHT = 600, 450
+WIN_WIDTH, WIN_HEIGHT = 600, 450
 
 FILE_EXT = 'shxc'
 FILE_MAX_SIZE = 1024
 DIR_DOCS = os.path.abspath(os.path.join(os.path.expanduser('~'), 'Documents'))
+
+PSWD_MIN_SIZE = 8
 
 
 def app():
@@ -105,7 +109,56 @@ def app():
 	#-------------#
 	# Tab: Signup #
 	#-------------#
+	tab_signup_show_bool = False
 	
+	def tab_signup_onclick_show():
+		nonlocal tab_signup_show_bool
+		tab_signup_show_bool = not tab_signup_show_bool
+		
+		if tab_signup_show_bool:
+			tab_signup_entry.config(show='')
+			tab_signup_entry_confirm.config(show='')
+		else:
+			tab_signup_entry.config(show='*')
+			tab_signup_entry_confirm.config(show='*')
+	
+	def tab_signup_onclick_confirm():
+		pswd0 = tab_signup_entry.get()
+		pswd1 = tab_signup_entry_confirm.get()
+		
+		if pswd0 != pswd1:
+			messagebox.showerror("Error", "Passwords do not match")
+		elif len(pswd0) < PSWD_MIN_SIZE:
+			messagebox.showerror("Error", f"Password is too short (< {PSWD_MIN_SIZE})")
+		elif not any(char.isdigit() for char in pswd0):
+			messagebox.showerror("Error", "Password must contain at least one digit")
+		elif not any(char.isupper() for char in pswd0):
+			messagebox.showerror("Error", "Password must contain at least one uppercase letter")
+		elif not any(char in punctuation for char in pswd0):
+			messagebox.showerror("Error", "Password must contain at least one special character")
+		
+		# TODO: Create a new database file and encrypt it with the pswd0
+	
+	ttk.Button(tab_signup.frame, text="Toggle View", command=tab_signup_onclick_show).pack(
+		padx=(WIN_MIN_WIDTH / 3), fill='x', pady=20
+	)
+	
+	tab_signup_entry_frame = ttk.Frame(tab_signup.frame)
+	tab_signup_entry_frame.pack(
+		padx=(WIN_MIN_WIDTH / 6), fill='x', pady=0
+	)
+	
+	ttk.Label(tab_signup_entry_frame, text="Password:").pack(anchor='w')
+	tab_signup_entry = ttk.Entry(tab_signup_entry_frame, show='*')
+	tab_signup_entry.pack(fill='x')
+	
+	ttk.Label(tab_signup_entry_frame, text="Repeat Password:").pack(anchor='w')
+	tab_signup_entry_confirm = ttk.Entry(tab_signup_entry_frame, show='*')
+	tab_signup_entry_confirm.pack(fill='x')
+	
+	ttk.Button(tab_signup.frame, text="Confim", command=tab_signup_onclick_confirm).pack(
+		padx=(WIN_MIN_WIDTH / 3), fill='x', pady=30
+	)
 	
 	#------------#
 	# Tab: Login #
