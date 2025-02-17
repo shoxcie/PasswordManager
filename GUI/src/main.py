@@ -36,6 +36,48 @@ def app():
 	style.theme_use('black_theme')
 	
 	#----------#
+	# Notebook #
+	#----------#
+	notebook = ttk.Notebook(root)
+	notebook.pack(expand=True, fill='both')
+	file_tab = my_gui.notebook.Tab(notebook, "  File", 'file.png')
+	signup_tab = my_gui.notebook.Tab(notebook, "  SignUp", 'key.png').hide()
+	login_tab = my_gui.notebook.Tab(notebook, "  Login", 'key.png').hide()
+	password_tab = my_gui.notebook.Tab(notebook, "  Password", 'key.png').hide()
+	database_tab = my_gui.notebook.Tab(notebook, "  Database", 'list.png').hide()
+	entry_tab = my_gui.notebook.Tab(notebook, "  Entry", 'entry.png').hide()
+	
+	#-----------#
+	# Tab: File #
+	#-----------#
+
+
+	#-------------#
+	# Tab: Signup #
+	#-------------#
+	
+
+	#------------#
+	# Tab: Login #
+	#------------#
+	
+	
+	#---------------#
+	# Tab: Password #
+	#---------------#
+	
+	
+	#---------------#
+	# Tab: Database #
+	#---------------#
+	
+	
+	#------------#
+	# Tab: Entry #
+	#------------#
+
+
+	#----------#
 	# MainLoop #
 	#----------#
 	root.mainloop()

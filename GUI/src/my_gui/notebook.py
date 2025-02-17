@@ -3,14 +3,14 @@ from tkinter import PhotoImage
 from os import path
 
 
-ICONS_DIR = path.abspath(path.join(path.dirname(__file__), path.pardir, path.pardir, 'icons'))
+DIR_ICONS = path.abspath(path.join(path.dirname(__file__), path.pardir, path.pardir, 'icons'))
 
 
 class Tab:
 	def __init__(self, parent: Notebook, title: str, image_png: str):
 		self.frame = Frame(parent)
 		self.__notebook = parent
-		self.__icon = PhotoImage(file=path.join(ICONS_DIR, image_png))
+		self.__icon = PhotoImage(file=path.join(DIR_ICONS, image_png))
 		parent.add(self.frame, text=title, image=self.__icon, compound='left')
 
 	def show(self):
