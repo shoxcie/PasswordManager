@@ -13,8 +13,8 @@ import my_gui
 # Constants #
 #-----------#
 WIN_TITLE = "Password Manager"
-WIN_MIN_WIDTH, WIN_MIN_HEIGHT = 700, 550
-WIN_WIDTH, WIN_HEIGHT = 700, 550
+WIN_MIN_WIDTH, WIN_MIN_HEIGHT = 700, 580
+WIN_WIDTH, WIN_HEIGHT = 700, 580
 
 FILE_EXT = 'shxc'
 FILE_MAX_SIZE = 1024
@@ -122,11 +122,15 @@ def app():
 	if tab_file_reason:
 		tab_file.show()
 	
-	ttk.Button(tab_file.frame, text="Select", command=tab_file_onclick_select).pack(
-		padx=(WIN_MIN_WIDTH / 3), fill='x', pady=20
+	tab_file_frame = ttk.Frame(tab_file.frame)
+	tab_file_frame.pack(fill='x', expand=True)
+	
+	ttk.Button(tab_file_frame, text="Select", command=tab_file_onclick_select).pack(
+		padx=(WIN_MIN_WIDTH / 3), fill='x'
 	)
-	ttk.Button(tab_file.frame, text="Create", command=tab_file_onclick_create).pack(
-		padx=(WIN_MIN_WIDTH / 3), fill='x', pady=0
+	
+	ttk.Button(tab_file_frame, text="Create", command=tab_file_onclick_create).pack(
+		padx=(WIN_MIN_WIDTH / 3), fill='x', pady=30
 	)
 	
 	#-------------#
@@ -153,25 +157,25 @@ def app():
 			pass
 			# TODO: Create a new database file and encrypt it with the pswd0
 	
-	ttk.Button(tab_signup.frame, text="Toggle View", command=tab_signup_onclick_show).pack(
-		padx=(WIN_MIN_WIDTH / 3), fill='x', pady=20
+	tab_signup_frame = ttk.Frame(tab_signup.frame)
+	tab_signup_frame.pack(
+		padx=(WIN_MIN_WIDTH / 6), fill='x', expand=True
 	)
 	
-	tab_signup_entry_frame = ttk.Frame(tab_signup.frame)
-	tab_signup_entry_frame.pack(
-		padx=(WIN_MIN_WIDTH / 6), fill='x', pady=0
+	ttk.Button(tab_signup_frame, text="Toggle View", command=tab_signup_onclick_show).pack(
+		padx=(WIN_MIN_WIDTH / 6), fill='x', pady=20
 	)
 	
-	ttk.Label(tab_signup_entry_frame, text="Password:").pack(anchor='w')
-	tab_signup_entry = ttk.Entry(tab_signup_entry_frame, show='*')
+	ttk.Label(tab_signup_frame, text="Password:").pack(anchor='w')
+	tab_signup_entry = ttk.Entry(tab_signup_frame, show='*')
 	tab_signup_entry.pack(fill='x')
 	
-	ttk.Label(tab_signup_entry_frame, text="Repeat Password:").pack(anchor='w')
-	tab_signup_entry_echo = ttk.Entry(tab_signup_entry_frame, show='*')
+	ttk.Label(tab_signup_frame, text="Repeat Password:").pack(anchor='w')
+	tab_signup_entry_echo = ttk.Entry(tab_signup_frame, show='*')
 	tab_signup_entry_echo.pack(fill='x')
 	
-	ttk.Button(tab_signup.frame, text="Confim", command=tab_signup_onclick_confirm).pack(
-		padx=(WIN_MIN_WIDTH / 3), fill='x', pady=30
+	ttk.Button(tab_signup_frame, text="Confim", command=tab_signup_onclick_confirm).pack(
+		padx=(WIN_MIN_WIDTH / 6), fill='x', pady=30
 	)
 	
 	#------------#
@@ -183,7 +187,7 @@ def app():
 		nonlocal tab_login_show_bool
 		tab_login_show_bool = not tab_login_show_bool
 		
-		if tab_login_onclick_show:
+		if tab_login_show_bool:
 			tab_login_entry.config(show='')
 		else:
 			tab_login_entry.config(show='*')
@@ -197,21 +201,21 @@ def app():
 	if not tab_file_reason:
 		tab_login.show()
 	
-	ttk.Button(tab_login.frame, text="Toggle View", command=tab_login_onclick_show).pack(
-		padx=(WIN_MIN_WIDTH / 3), fill='x', pady=20
+	tab_login_frame = ttk.Frame(tab_login.frame)
+	tab_login_frame.pack(
+		padx=(WIN_MIN_WIDTH / 6), fill='x', expand=True
 	)
 	
-	tab_login_entry_frame = ttk.Frame(tab_login.frame)
-	tab_login_entry_frame.pack(
-		padx=(WIN_MIN_WIDTH / 6), fill='x', pady=0
+	ttk.Button(tab_login_frame, text="Toggle View", command=tab_login_onclick_show).pack(
+		padx=(WIN_MIN_WIDTH / 6), fill='x', pady=20
 	)
 	
-	ttk.Label(tab_login_entry_frame, text="Password:").pack(anchor='w')
-	tab_login_entry = ttk.Entry(tab_login_entry_frame, show='*')
+	ttk.Label(tab_login_frame, text="Password:").pack(anchor='w')
+	tab_login_entry = ttk.Entry(tab_login_frame, show='*')
 	tab_login_entry.pack(fill='x')
 	
-	ttk.Button(tab_login.frame, text="Confim", command=tab_login_onclick_confirm).pack(
-		padx=(WIN_MIN_WIDTH / 3), fill='x', pady=30
+	ttk.Button(tab_login_frame, text="Confim", command=tab_login_onclick_confirm).pack(
+		padx=(WIN_MIN_WIDTH / 6), fill='x', pady=30
 	)
 	
 	#---------------#
@@ -240,29 +244,29 @@ def app():
 			pass
 			# TODO: Change the password in the database file
 	
-	ttk.Button(tab_password.frame, text="Toggle View", command=tab_password_onclick_show).pack(
-		padx=(WIN_MIN_WIDTH / 3), fill='x', pady=20
+	tab_password_frame = ttk.Frame(tab_password.frame)
+	tab_password_frame.pack(
+		padx=(WIN_MIN_WIDTH / 6), fill='x', expand=True
 	)
 	
-	tab_password_entry_frame = ttk.Frame(tab_password.frame)
-	tab_password_entry_frame.pack(
-		padx=(WIN_MIN_WIDTH / 6), fill='x', pady=0
+	ttk.Button(tab_password_frame, text="Toggle View", command=tab_password_onclick_show).pack(
+		padx=(WIN_MIN_WIDTH / 6), fill='x', pady=20
 	)
 	
-	ttk.Label(tab_password_entry_frame, text="Current Password:").pack(anchor='w')
-	tab_password_entry = ttk.Entry(tab_password_entry_frame, show='*')
+	ttk.Label(tab_password_frame, text="Current Password:").pack(anchor='w')
+	tab_password_entry = ttk.Entry(tab_password_frame, show='*')
 	tab_password_entry.pack(fill='x')
 	
-	ttk.Label(tab_password_entry_frame, text="New Password:").pack(anchor='w')
-	tab_password_entry_new = ttk.Entry(tab_password_entry_frame, show='*')
+	ttk.Label(tab_password_frame, text="New Password:").pack(anchor='w')
+	tab_password_entry_new = ttk.Entry(tab_password_frame, show='*')
 	tab_password_entry_new.pack(fill='x')
 
-	ttk.Label(tab_password_entry_frame, text="Repeat New Password:").pack(anchor='w')
-	tab_password_entry_new_echo = ttk.Entry(tab_password_entry_frame, show='*')
+	ttk.Label(tab_password_frame, text="Repeat New Password:").pack(anchor='w')
+	tab_password_entry_new_echo = ttk.Entry(tab_password_frame, show='*')
 	tab_password_entry_new_echo.pack(fill='x')
 	
-	ttk.Button(tab_password.frame, text="Confim", command=tab_password_onclick_confirm).pack(
-		padx=(WIN_MIN_WIDTH / 3), fill='x', pady=30
+	ttk.Button(tab_password_frame, text="Confim", command=tab_password_onclick_confirm).pack(
+		padx=(WIN_MIN_WIDTH / 6), fill='x', pady=30
 	)
 	
 	#---------------#
@@ -291,29 +295,29 @@ def app():
 		pass
 		# TODO: Encrypt and save the entry in the database file
 	
-	tab_entry_entry_frame = ttk.Frame(tab_entry.frame)
-	tab_entry_entry_frame.pack(
-		padx=(WIN_MIN_WIDTH / 6), fill='x', pady=0
+	tab_entry_frame = ttk.Frame(tab_entry.frame)
+	tab_entry_frame.pack(
+		padx=(WIN_MIN_WIDTH / 6), fill='x', expand=True
 	)
 	
-	ttk.Label(tab_entry_entry_frame, text="Title:").pack(anchor='w')
-	tab_entry_entry_title = ttk.Entry(tab_entry_entry_frame)
+	ttk.Label(tab_entry_frame, text="Title:").pack(anchor='w')
+	tab_entry_entry_title = ttk.Entry(tab_entry_frame)
 	tab_entry_entry_title.pack(fill='x')
 	
-	ttk.Label(tab_entry_entry_frame, text="Login:").pack(anchor='w')
-	tab_entry_entry_login = ttk.Entry(tab_entry_entry_frame)
+	ttk.Label(tab_entry_frame, text="Login:").pack(anchor='w')
+	tab_entry_entry_login = ttk.Entry(tab_entry_frame)
 	tab_entry_entry_login.pack(fill='x')
 	
-	ttk.Label(tab_entry_entry_frame, text="Password:").pack(anchor='w')
-	tab_entry_entry_password = ttk.Entry(tab_entry_entry_frame, show='*')
+	ttk.Label(tab_entry_frame, text="Password:").pack(anchor='w')
+	tab_entry_entry_password = ttk.Entry(tab_entry_frame, show='*')
 	tab_entry_entry_password.pack(fill='x')
 	
-	ttk.Button(tab_entry.frame, text="Toggle View", command=tab_entry_onclick_show).pack(
-		padx=(WIN_MIN_WIDTH / 3), fill='x', pady=20
+	ttk.Button(tab_entry_frame, text="Toggle View", command=tab_entry_onclick_show).pack(
+		padx=(WIN_MIN_WIDTH / 6), fill='x', pady=20
 	)
 	
-	ttk.Button(tab_entry.frame, text="Copy Password", command=tab_entry_onclick_copy).pack(
-		padx=(WIN_MIN_WIDTH / 3), fill='x', pady=0
+	ttk.Button(tab_entry_frame, text="Copy Password", command=tab_entry_onclick_copy).pack(
+		padx=(WIN_MIN_WIDTH / 6), fill='x'
 	)
 	
 	ttk.Button(tab_entry.frame, text="Save").pack(
