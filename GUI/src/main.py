@@ -195,7 +195,9 @@ def app():
 	def tab_login_onclick_confirm():
 		pass
 		# TODO: Decrypt the database file with tab_login_entry.get() password
-		#	if the password is correct, show main tabs
+		#	if the password is correct, hide the Login tab,
+		#		then show Password, Database and Entry tabs
+		#		and fill the Database tab's treeview
 		#	else, show error message
 	
 	if not tab_file_reason:
@@ -272,11 +274,91 @@ def app():
 	#---------------#
 	# Tab: Database #
 	#---------------#
+	def tab_database_onclick_add():
+		tab_entry_clear_entries()
+		tab_entry.show()
 	
+	def tab_database_onclick_edit():
+		selected_item = tab_database_treeview.selection()
+		if selected_item:
+			tab_entry_clear_entries()
+			tab_entry.show()
+			selected_title = tab_database_treeview.item(selected_item, 'text')
+			tab_entry_entry_title.insert(0, selected_title)
+			# TODO: Decrypt database, find entry by the selected_title, fill the Entry tab with the data
+	
+	def tab_database_onclick_delete():
+		selected_item = tab_database_treeview.selection()
+		if selected_item:
+			print(tab_database_treeview.item(selected_item, 'text'))
+			# TODO: Decrypt database, find entry by the selected item's text, delete the entry from the database
+			tab_database_treeview.delete(selected_item)
+	
+	test_data = [ # TODO: Remove this
+		"YouTube", "GitHub", "Gmail", "Google", "Yahoo",
+		"Yandex", "Aliexpress", "Amazon", "Wikipedia", "Wookieepedia",
+		"Something1", "Something2", "Something3", "Something4", "Something5"
+	]
+	
+	def tab_database_treeview_search(event=None):
+		query = tab_database_entry.get().lower()
+		# filtered_data = [item for item in data if query in item.lower()]
+		filtered_data = [item for item in test_data if item.lower().startswith(query)]
+		for item in tab_database_treeview.get_children():
+			tab_database_treeview.delete(item)
+		for item in filtered_data:
+			tab_database_treeview.insert('', 'end', text=item)
+	
+	tab_database_frame = ttk.Frame(tab_database.frame)
+	tab_database_frame.pack(
+		fill='both', expand=True
+	)
+	
+	ttk.Label(tab_database_frame, text="Search:").pack(anchor='n')
+	tab_database_entry = ttk.Entry(tab_database_frame)
+	tab_database_entry.pack(
+		padx=(WIN_MIN_WIDTH / 6), fill='x', pady=(0, 20)
+	)
+	tab_database_entry.bind('<KeyRelease>', tab_database_treeview_search)
+	
+	tab_database_treeview = ttk.Treeview(tab_database_frame, show='tree', height=0)
+	tab_database_treeview.pack(side='left', fill='both', expand=True)
+	
+	tab_database_treeview_scrollbar = my_gui.scrollbar.AutoScrollbar(
+		tab_database_frame, orient='vertical', command=tab_database_treeview.yview
+	)
+	tab_database_treeview.configure(
+		yscrollcommand=tab_database_treeview_scrollbar.set
+	)
+	
+	for item in test_data:
+		tab_database_treeview.insert("", tk.END, text=item)
+	
+	tab_database_footer_frame = ttk.Frame(tab_database.frame)
+	tab_database_footer_frame.pack(
+		fill='x', side='bottom'
+	)
+	
+	ttk.Button(tab_database_footer_frame, text="Add", command=tab_database_onclick_add).pack(
+		fill='x', side='left', expand=True
+	)
+	
+	ttk.Button(tab_database_footer_frame, text="Edit", command=tab_database_onclick_edit).pack(
+		fill='x', side='left', expand=True, padx=3
+	)
+	
+	ttk.Button(tab_database_footer_frame, text="Delete", command=tab_database_onclick_delete).pack(
+		fill='x', side='left', expand=True
+	)
 	
 	#------------#
 	# Tab: Entry #
 	#------------#
+	def tab_entry_clear_entries():
+		tab_entry_entry_title.delete(0, tk.END)
+		tab_entry_entry_login.delete(0, tk.END)
+		tab_entry_entry_password.delete(0, tk.END)
+	
 	tab_entry_show_bool = False
 	
 	def tab_entry_onclick_show():
@@ -293,7 +375,10 @@ def app():
 	
 	def tab_entry_onclick_save():
 		pass
-		# TODO: Encrypt and save the entry in the database file
+		# TODO: Decrypt the database, check if exists entry with
+		#	`tab_entry_entry_title.get()` title exitst
+		#	if it does exits, change its data and save it
+		#	else save it as a new entry
 	
 	tab_entry_frame = ttk.Frame(tab_entry.frame)
 	tab_entry_frame.pack(
@@ -320,7 +405,7 @@ def app():
 		padx=(WIN_MIN_WIDTH / 6), fill='x'
 	)
 	
-	ttk.Button(tab_entry.frame, text="Save").pack(
+	ttk.Button(tab_entry.frame, text="Save", command=tab_entry_onclick_save).pack(
 		fill='x', side='bottom'
 	)
 	
