@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox
 from string import punctuation
+import pyperclip
 import os
 
 import my_gui
@@ -272,7 +273,52 @@ def app():
 	#------------#
 	# Tab: Entry #
 	#------------#
+	tab_entry_show_bool = False
 	
+	def tab_entry_onclick_show():
+		nonlocal tab_entry_show_bool
+		tab_entry_show_bool = not tab_entry_show_bool
+		
+		if tab_entry_show_bool:
+			tab_entry_entry_password.config(show='')
+		else:
+			tab_entry_entry_password.config(show='*')
+	
+	def tab_entry_onclick_copy():
+		pyperclip.copy(tab_entry_entry_password.get())
+	
+	def tab_entry_onclick_save():
+		pass
+		# TODO: Encrypt and save the entry in the database file
+	
+	tab_entry_entry_frame = ttk.Frame(tab_entry.frame)
+	tab_entry_entry_frame.pack(
+		padx=(WIN_MIN_WIDTH / 6), fill='x', pady=0
+	)
+	
+	ttk.Label(tab_entry_entry_frame, text="Title:").pack(anchor='w')
+	tab_entry_entry_title = ttk.Entry(tab_entry_entry_frame)
+	tab_entry_entry_title.pack(fill='x')
+	
+	ttk.Label(tab_entry_entry_frame, text="Login:").pack(anchor='w')
+	tab_entry_entry_login = ttk.Entry(tab_entry_entry_frame)
+	tab_entry_entry_login.pack(fill='x')
+	
+	ttk.Label(tab_entry_entry_frame, text="Password:").pack(anchor='w')
+	tab_entry_entry_password = ttk.Entry(tab_entry_entry_frame, show='*')
+	tab_entry_entry_password.pack(fill='x')
+	
+	ttk.Button(tab_entry.frame, text="Toggle View", command=tab_entry_onclick_show).pack(
+		padx=(WIN_MIN_WIDTH / 3), fill='x', pady=20
+	)
+	
+	ttk.Button(tab_entry.frame, text="Copy Password", command=tab_entry_onclick_copy).pack(
+		padx=(WIN_MIN_WIDTH / 3), fill='x', pady=0
+	)
+	
+	ttk.Button(tab_entry.frame, text="Save").pack(
+		fill='x', side='bottom'
+	)
 	
 	#----------#
 	# MainLoop #
