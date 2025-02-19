@@ -1,9 +1,18 @@
 from tkinter.ttk import Notebook, Frame
 from tkinter import PhotoImage
 from os import path
+import sys
 
 
-DIR_ICONS = path.abspath(path.join(path.dirname(__file__), path.pardir, path.pardir, 'icons'))
+def get_resource_path(relative_path):
+	if getattr(sys, 'frozen', False):
+		base_path = sys._MEIPASS
+	else:
+		base_path = path.abspath(".")
+	return path.join(base_path, relative_path)
+
+
+DIR_ICONS = get_resource_path('icons')
 
 
 class Tab:
